@@ -4,6 +4,6 @@
 #include <string>
 #include <vector>
 
-bool processCmdLine(const std::vector<std::string>& args,bool& helpReq,bool& verReq,std::string& inpF, std::string& outF);
+bool processCmdLine(const std::vector<std::string>& args,bool& helpReq,bool& verReq,int& encryptReq,std::string& inpF, std::string& outF,std::string& ciphKey);
 
 #endif //prevents processcmdline being included twice in a program

@@ -4,7 +4,7 @@
 
 #include "processCmdLine.hpp"
 
-bool processCmdLine(const std::vector<std::string>& args,bool& helpReq,bool& verReq,std::string& inpF, std::string& outF){
+bool processCmdLine(const std::vector<std::string>& args,bool& helpReq,bool& verReq,int& encryptReq,std::string& inpF, std::string& outF,std::string& ciphKey){
   /*Takes the argument vector of strings and the relevant variables for program operation and proceses user input
     to a useful result for the remainder of the program
 
@@ -51,6 +51,27 @@ bool processCmdLine(const std::vector<std::string>& args,bool& helpReq,bool& ver
         ++i;
       }
     }
+    else if (args[i] == "-key") {
+      // Handle key input option
+      // Next element is key value unless -key is the last argument
+      if (i == nCmdLineArgs-1) {
+        std::cerr << "[error] -key requires a cipher key argument" << std::endl;
+        // exit main with non-zero return to indicate failure
+        return false;
+      }
+      else {
+        //checking for positive integer as required for key
+        for (const char& keyChar : args[i+1]){
+            if (!std::isdigit(keyChar)){
+                std::cerr << "[error] cipher key must be positive integer" << std::endl;
+                // exit main with non-zero return to indicate failure
+                return false;
+            }
+        }
+        ciphKey = args[i+1]; //despite checking for positive integer... keep as string to check for no input
+        ++i;
+      }
+    }
     else if (args[i] == "-o") {
       // Handle output file option
       // Next element is filename unless -o is the last argument
@@ -64,6 +85,16 @@ bool processCmdLine(const std::vector<std::string>& args,bool& helpReq,bool& ver
         outF = args[i+1];
         ++i;
       }
+    }
+    else if (args[i] == "--encrypt" || args[i] == "-e") {
+      // Handle encrypt
+      // set to 1 here rather than true because of requiring third option
+      encryptReq=1;
+    }
+    else if (args[i] == "--decrypt" || args[i] == "-d") {
+      // Handle decrypt
+      // set to 0 here because of requiring third option
+      encryptReq=0;
     }
     else {
       // Have an unknown flag to output error message and return non-zero
