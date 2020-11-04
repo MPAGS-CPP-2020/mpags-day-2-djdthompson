@@ -14,7 +14,7 @@ and change directory into that holding this README. Then run:
 $ ls
 LICENSE          README.md        mpags-cipher.cpp
 $ g++ -std=c++11 -Wall -Wextra -Werror -Wfatal-errors -pedantic -Wshadow -o mpags-cipher mpags-cipher.cpp
-$ ./mpags-cipher
+$ ./mpags-cipher -e -key 0
 ```
 
 If no input file is supplied, `mpags-cipher` will wait for user input
@@ -27,6 +27,8 @@ classical ciphers, it is transliterated using the following rules:
 - All other characters (punctuation) are discarded
 
 The results of this transliteration are output after CTRL-D.
+
+In the current state, the Caesar Cipher is used. Argument -e encrypts input text and -d decrpyts. The positive integer after -key indicates the cipher key the user wants to use. These three arguments are required for the cipher to function.
 
 
 # Source Code Layout
